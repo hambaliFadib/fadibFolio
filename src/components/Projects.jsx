@@ -31,7 +31,7 @@ const Projects = (props) => {
       .then((res) => setData(res))
       .catch((err) => err);
   }, []);
-  const numberOfItems = showMore && data ? data.length : 6;
+  const numberOfItems = showMore && data ? data.projects.length : 6;
   return (
     <>
       <Header title={header} />
@@ -47,7 +47,7 @@ const Projects = (props) => {
                 ))}
               </Row>
 
-              {!showMore
+              {!showMore && data.projects.length > 6
                 && (
                 <Button
                   style={styles.showMoreStyle}
