@@ -1,8 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the redesigned enterprise QA hero content', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('heading', {
+      name: /quality decision anchor in high-risk enterprise systems/i,
+    }),
+  ).toBeInTheDocument();
+
+  expect(screen.getByRole('link', { name: /view projects/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /quality thinking/i })).toBeInTheDocument();
 });

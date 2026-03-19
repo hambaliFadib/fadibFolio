@@ -1,46 +1,23 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import FallbackSpinner from './components/FallbackSpinner';
-import NavBarWithRouter from './components/NavBar';
-import Home from './components/Home';
-import endpoints from './constants/endpoints';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import HomePage from './pages/HomePage';
+import ProjectsPage from './pages/ProjectsPage';
+import QualityThinkingPage from './pages/QualityThinkingPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 
 function MainApp() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch(endpoints.routes, {
-      method: 'GET',
-    })
-      .then((res) => res.json())
-      .then((res) => setData(res))
-      .catch((err) => err);
-  }, []);
-
   return (
-    <div className="MainApp">
-      <NavBarWithRouter />
-      <main className="main">
-        <Switch>
-          <Suspense fallback={<FallbackSpinner />}>
-            <Route exact path="/" component={Home} />
-            {data
-              && data.sections.map((route) => {
-                const SectionComponent = React.lazy(() => import('./components/' + route.component));
-                return (
-                  <Route
-                    key={route.headerTitle}
-                    path={route.path}
-                    component={() => (
-                      <SectionComponent header={route.headerTitle} />
-                    )}
-                  />
-                );
-              })}
-          </Suspense>
-        </Switch>
-      </main>
-    </div>
+    <Layout>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/projects" component={ProjectsPage} />
+        <Route path="/quality-thinking" component={QualityThinkingPage} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="/contact" component={ContactPage} />
+      </Switch>
+    </Layout>
   );
 }
 
