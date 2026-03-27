@@ -1,0 +1,36 @@
+import { cn } from "@/lib/utils";
+
+interface SectionHeadingProps {
+  eyebrow: string;
+  title: string;
+  description: string;
+  align?: "left" | "center";
+  className?: string;
+}
+
+export function SectionHeading({
+  eyebrow,
+  title,
+  description,
+  align = "left",
+  className,
+}: SectionHeadingProps) {
+  const alignment =
+    align === "center"
+      ? "mx-auto max-w-3xl text-center"
+      : "max-w-[46rem]";
+
+  return (
+    <div className={cn("space-y-3 sm:space-y-4", alignment, className)}>
+      <p className="font-mono text-[11px] font-medium uppercase tracking-[0.3em] text-primary/80">
+        {eyebrow}
+      </p>
+      <h2 className="text-balance text-[2rem] font-semibold tracking-tight text-foreground sm:text-[2.35rem] lg:text-[2.65rem]">
+        {title}
+      </h2>
+      <p className="text-pretty text-[15px] leading-7 text-muted-foreground md:text-lg md:leading-8">
+        {description}
+      </p>
+    </div>
+  );
+}
