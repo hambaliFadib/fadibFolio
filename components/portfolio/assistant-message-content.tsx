@@ -201,7 +201,7 @@ export function AssistantMessageContent({
             key={`paragraph-${index}`}
             className={cn(
               "text-pretty",
-              isHeadingParagraph(segment.text) ? "font-semibold tracking-tight text-foreground" : "",
+              isHeadingParagraph(segment.text) ? "font-semibold text-foreground" : "",
             )}
           >
             {renderInlineText(segment.text.replace(/^#{1,3}\s+/, ""))}

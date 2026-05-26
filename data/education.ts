@@ -11,6 +11,10 @@ export interface EducationItem {
   institutionLogo: IdentityLogo;
   degree: string;
   range: TimelineRange;
+  expectedGraduation?: {
+    month: number;
+    year: number;
+  };
   note: string;
 }
 
@@ -29,6 +33,10 @@ export const educationItems: EducationItem[] = [
         year: 2023,
       },
       ongoing: true,
+    },
+    expectedGraduation: {
+      month: 2,
+      year: 2029,
     },
     note:
       "Currently pursuing a Bachelor's degree focusing on business process analysis, system design, data management, and IT governance.",

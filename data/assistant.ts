@@ -4,10 +4,10 @@
 }
 
 export const assistantConfig = {
-  title: "AI Portfolio Assistant",
-  badge: "Portfolio-aware, public-data grounded",
+  title: "Clarity AI",
+  badge: "Portfolio-aware reasoning",
   description:
-    "Ask about background, QA thinking, projects, systems, skills, or contact paths using the published portfolio information already on this site.",
+    "Architectural reasoning assistant for the published portfolio.",
   supportingLine:
     "",
   placeholder: "Ask about QA approach, systems handled, release decisions, or contact...",
@@ -29,4 +29,3 @@ export const assistantConfig = {
   errorMessage:
     "The portfolio assistant is temporarily unavailable. Please try again shortly.",
 } as const;
-

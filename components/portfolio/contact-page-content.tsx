@@ -8,6 +8,7 @@ import {
   Linkedin,
   Mail,
   MessageCircle,
+  Send,
 } from "lucide-react";
 import { contactChannels, siteConfig } from "@/data/profile";
 import { Button } from "@/components/ui/button";
@@ -38,9 +39,6 @@ const subjectOptions = [
   "QA / Quality thinking",
   "Other",
 ] as const;
-
-const sharedCardClassName =
-  "border-border/70 bg-card/95 shadow-[0_18px_50px_-42px_rgba(11,36,84,0.35)] dark:shadow-[0_18px_50px_-42px_rgba(2,8,23,0.72)]";
 
 interface ContactFormState {
   fullName: string;
@@ -76,10 +74,7 @@ export function ContactPageContent() {
     message: "",
   });
 
-  function updateField(
-    field: keyof typeof formState,
-    value: string,
-  ) {
+  function updateField(field: keyof ContactFormState, value: string) {
     setFormState((current) => ({
       ...current,
       [field]: value,
@@ -92,78 +87,88 @@ export function ContactPageContent() {
   }
 
   return (
-    <section className="px-6 py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl space-y-8">
-        <div className="max-w-3xl space-y-3">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.3em] text-primary/80">
-            Contact
-          </p>
-        </div>
+    <section className="px-6 py-20 sm:py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl space-y-12">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
+          <div className="space-y-8">
+            <div className="space-y-6">
+              <p className="font-mono text-xs font-medium uppercase text-primary/80">
+                Contact
+              </p>
+              <h1 className="text-5xl font-semibold leading-[1.06] text-foreground sm:text-6xl">
+                Get in touch.
+              </h1>
+              <p className="max-w-xl text-lg leading-8 text-muted-foreground">
+                Open for professional discussion around collaboration, systems,
+                quality strategy, and delivery decisions where clarity matters.
+              </p>
+            </div>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-8">
-          <Card className={sharedCardClassName}>
-            <CardContent className="flex h-full flex-col gap-6 sm:px-8">
-              <div className="space-y-4">
-                <div className="space-y-3">
-                  <h1 className="text-balance text-[2rem] font-semibold tracking-tight text-foreground sm:text-[2.35rem]">
-                    Get in touch
-                  </h1>
-                  <p className="max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
-                    Open for thoughtful discussion around collaboration, systems,
-                    design decisions, and QA topics where clarity and practical
-                    judgment matter.
-                  </p>
-                </div>
-              </div>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild className="h-11 rounded-full px-5">
+                <Link href={`mailto:${siteConfig.author.email}`}>
+                  <Mail className="h-4 w-4" />
+                  Email
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="h-11 rounded-full border-border/80 bg-background/80 px-5"
+              >
+                <Link
+                  href={siteConfig.author.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  WhatsApp
+                </Link>
+              </Button>
+            </div>
 
-              <div className="space-y-3">
-                {contactChannels.map((channel) => {
-                  const Icon = contactIconMap[channel.label as keyof typeof contactIconMap];
-                  const isExternal = channel.href.startsWith("http");
+            <div className="grid gap-3 sm:grid-cols-2">
+              {contactChannels.map((channel) => {
+                const Icon = contactIconMap[channel.label as keyof typeof contactIconMap];
+                const isExternal = channel.href.startsWith("http");
 
-                  return (
-                    <Link
-                      key={channel.label}
-                      href={channel.href}
-                      target={isExternal ? "_blank" : undefined}
-                      rel={isExternal ? "noopener noreferrer" : undefined}
-                      aria-label={channel.label}
-                      className="group flex items-start gap-4 rounded-[1.35rem] border border-border/70 bg-secondary/38 px-4 py-4 transition-[transform,border-color,background-color,box-shadow] duration-300 hover:border-primary/20 hover:bg-primary/5 hover:shadow-[0_18px_45px_-36px_rgba(11,36,84,0.35)] motion-safe:hover:-translate-y-px"
-                    >
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-border/70 bg-background/92 text-primary shadow-[0_12px_30px_-26px_rgba(11,36,84,0.35)] transition-[transform,border-color,background-color] duration-300 group-hover:border-primary/20 group-hover:bg-background motion-safe:group-hover:-translate-y-px dark:shadow-[0_12px_30px_-26px_rgba(2,8,23,0.72)]">
+                return (
+                  <Link
+                    key={channel.label}
+                    href={channel.href}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    aria-label={channel.label}
+                    className="group rounded-lg border border-border/70 bg-card/82 p-4 transition-[transform,border-color,background-color,box-shadow] duration-300 hover:border-primary/25 hover:bg-card motion-safe:hover:-translate-y-px"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-background/90 text-primary">
                         <Icon className="h-4 w-4" />
                       </div>
-
-                      <div className="min-w-0 space-y-1">
-                        <p className="text-sm font-semibold tracking-tight text-foreground">
-                          {channel.label}
-                        </p>
-                        <p className="break-words text-sm leading-6 text-foreground/85">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-foreground">{channel.label}</p>
+                        <p className="mt-1 break-words text-sm leading-6 text-foreground/82">
                           {channel.value}
                         </p>
-                        <p className="text-sm leading-6 text-muted-foreground">
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
                           {channel.description}
                         </p>
                       </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
 
-          <Card className={sharedCardClassName}>
-            <CardHeader className="space-y-2 sm:px-8">
-              <CardTitle className="text-xl tracking-tight text-foreground sm:text-2xl">
-                Send a message
-              </CardTitle>
+          <Card className="border-border/70 bg-card/92 py-0 shadow-[0_28px_80px_-54px_rgba(20,33,61,0.48)]">
+            <CardHeader className="border-b border-border/70 p-6">
+              <CardTitle className="text-2xl text-foreground">Send a message</CardTitle>
               <p className="text-sm leading-6 text-muted-foreground">
-                Share the context briefly and clearly. The form opens your email
-                client with the message prefilled, and can be connected to a
-                backend later if needed.
+                Share the context, goal, and preferred next step.
               </p>
             </CardHeader>
-            <CardContent className="sm:px-8">
+            <CardContent className="p-6">
               <form className="space-y-5" onSubmit={handleSubmit}>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2.5">
@@ -173,7 +178,7 @@ export function ContactPageContent() {
                       value={formState.fullName}
                       onChange={(event) => updateField("fullName", event.target.value)}
                       placeholder="Your name"
-                      className="h-12 rounded-xl border-border/80 bg-background/92 px-4 shadow-none"
+                      className="h-12 rounded-lg border-border/80 bg-background/92 px-4 shadow-none"
                       required
                     />
                   </div>
@@ -186,7 +191,7 @@ export function ContactPageContent() {
                       value={formState.email}
                       onChange={(event) => updateField("email", event.target.value)}
                       placeholder="you@example.com"
-                      className="h-12 rounded-xl border-border/80 bg-background/92 px-4 shadow-none"
+                      className="h-12 rounded-lg border-border/80 bg-background/92 px-4 shadow-none"
                       required
                     />
                   </div>
@@ -200,7 +205,7 @@ export function ContactPageContent() {
                       value={formState.phone}
                       onChange={(event) => updateField("phone", event.target.value)}
                       placeholder="Optional"
-                      className="h-12 rounded-xl border-border/80 bg-background/92 px-4 shadow-none"
+                      className="h-12 rounded-lg border-border/80 bg-background/92 px-4 shadow-none"
                     />
                   </div>
 
@@ -212,7 +217,7 @@ export function ContactPageContent() {
                     >
                       <SelectTrigger
                         id="subject"
-                        className="h-12 w-full rounded-xl border-border/80 bg-background/92 px-4 shadow-none"
+                        className="h-12 w-full rounded-lg border-border/80 bg-background/92 px-4 shadow-none"
                       >
                         <SelectValue placeholder="Select a subject" />
                       </SelectTrigger>
@@ -234,16 +239,15 @@ export function ContactPageContent() {
                     value={formState.message}
                     onChange={(event) => updateField("message", event.target.value)}
                     placeholder="Write your message here"
-                    className="min-h-[160px] rounded-[1.25rem] border-border/80 bg-background/92 px-4 py-3 shadow-none"
+                    className="min-h-[170px] rounded-lg border-border/80 bg-background/92 px-4 py-3 shadow-none"
                     required
                   />
                 </div>
 
-                <div className="flex justify-start">
-                  <Button type="submit" size="lg" className="h-12 rounded-full px-6">
-                    Send Message
-                  </Button>
-                </div>
+                <Button type="submit" size="lg" className="h-12 rounded-full px-6">
+                  Send Message
+                  <Send className="h-4 w-4" />
+                </Button>
               </form>
             </CardContent>
           </Card>

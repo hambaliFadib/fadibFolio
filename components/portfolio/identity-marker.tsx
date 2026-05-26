@@ -11,7 +11,7 @@ export function IdentityMarker({ src, alt, className }: IdentityMarkerProps) {
   return (
     <div
       className={cn(
-        "flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/70 bg-background/95 p-1.5 shadow-[0_12px_30px_-26px_rgba(11,36,84,0.35)]",
+        "flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/70 bg-background/95 p-1.5 shadow-[0_12px_30px_-26px_rgba(11,36,84,0.35)]",
         className,
       )}
     >

@@ -34,7 +34,7 @@ function ThinkingSectionHeading({
     primary: {
       eyebrow: "text-primary/85",
       title:
-        "text-balance text-[1.9rem] font-semibold tracking-tight text-foreground sm:text-[2.1rem] lg:text-[2.3rem]",
+        "text-balance text-[1.9rem] font-semibold text-foreground sm:text-[2.1rem] lg:text-[2.3rem]",
       description:
         "text-pretty text-[15px] leading-7 text-muted-foreground md:text-base",
       container: "max-w-3xl space-y-3 sm:space-y-4",
@@ -42,7 +42,7 @@ function ThinkingSectionHeading({
     supporting: {
       eyebrow: "text-primary/80",
       title:
-        "text-balance text-[1.7rem] font-semibold tracking-tight text-foreground sm:text-[1.95rem] lg:text-[2.15rem]",
+        "text-balance text-[1.7rem] font-semibold text-foreground sm:text-[1.95rem] lg:text-[2.15rem]",
       description:
         "text-pretty text-[15px] leading-7 text-muted-foreground md:text-base",
       container: "max-w-3xl space-y-2 sm:space-y-3",
@@ -50,7 +50,7 @@ function ThinkingSectionHeading({
     context: {
       eyebrow: "text-primary/70",
       title:
-        "text-balance text-[1.5rem] font-semibold tracking-tight text-foreground/90 sm:text-[1.72rem] lg:text-[1.9rem]",
+        "text-balance text-[1.5rem] font-semibold text-foreground/90 sm:text-[1.72rem] lg:text-[1.9rem]",
       description:
         "text-pretty text-[15px] leading-7 text-muted-foreground/90 md:text-base",
       container: "max-w-3xl space-y-2 sm:space-y-3",
@@ -58,7 +58,7 @@ function ThinkingSectionHeading({
     closing: {
       eyebrow: "text-primary/75",
       title:
-        "text-balance text-[1.8rem] font-semibold tracking-tight text-foreground sm:text-[2rem] lg:text-[2.2rem]",
+        "text-balance text-[1.8rem] font-semibold text-foreground sm:text-[2rem] lg:text-[2.2rem]",
       description:
         "text-pretty text-[15px] leading-7 text-muted-foreground md:text-base",
       container: "mx-auto max-w-3xl space-y-3 text-center sm:space-y-4",
@@ -69,7 +69,7 @@ function ThinkingSectionHeading({
     <div className={styles.container}>
       <p
         className={cn(
-          "font-mono text-[11px] font-medium uppercase tracking-[0.3em]",
+          "font-mono text-[11px] font-medium uppercase",
           styles.eyebrow,
         )}
       >
@@ -85,7 +85,7 @@ function ThinkingCardGridSection({
   section,
   level = "supporting",
   cardClassName = sharedCardClassName,
-  titleClassName = "text-xl tracking-tight text-foreground",
+  titleClassName = "text-xl text-foreground",
   gridClassName = "grid auto-rows-fr gap-5 md:grid-cols-2 xl:grid-cols-4",
   sectionClassName,
   contentClassName = "space-y-4",
@@ -132,7 +132,7 @@ function ThinkingListGridSection({
   section,
   level = "supporting",
   sectionClassName,
-  titleClassName = "text-xl tracking-tight text-foreground",
+  titleClassName = "text-xl text-foreground",
   contentClassName = "space-y-4",
 }: {
   section: ThinkingCardSection<ThinkingListCard>;
@@ -185,7 +185,7 @@ export function QualityThinkingSection() {
           section={problemBreakdownSection}
           level="supporting"
           renderPrefix={(index) => (
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-primary/80">
+            <p className="font-mono text-xs uppercase text-primary/80">
               Step {index + 1}
             </p>
           )}
@@ -206,17 +206,17 @@ export function QualityThinkingSection() {
         <ThinkingCardGridSection
           section={antiPatternsSection}
           level="context"
-          titleClassName="text-lg tracking-tight text-foreground/90"
+          titleClassName="text-lg text-foreground/90"
         />
 
         <ThinkingCardGridSection
           section={thinkingSnapshotSection}
           level="context"
           cardClassName="border-border/70 bg-background/90 shadow-[0_18px_50px_-42px_rgba(11,36,84,0.22)]"
-          titleClassName="text-xl tracking-tight text-foreground/92"
+          titleClassName="text-xl text-foreground/92"
           gridClassName="grid gap-5"
           renderPrefix={() => (
-            <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-primary/70">
+            <p className="font-mono text-[11px] uppercase text-primary/70">
               Reasoning fragment
             </p>
           )}

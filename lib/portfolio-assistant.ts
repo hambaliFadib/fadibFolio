@@ -318,7 +318,7 @@ const navigationSnippet: KnowledgeSnippet = {
   id: "navigation",
   title: "Portfolio Navigation",
   section: "navigation",
-  text: `Home: / | Projects: /projects | Thinking: /quality-thinking | About: /about | Contact: /contact | AI entry: /#assistant`,
+  text: `Home: / | Projects: /projects | Thinking: /quality-thinking | About: /about | Contact: /contact | Clarity AI: floating button at the bottom-right of every page`,
   keywords: ["page", "pages", "navigate", "navigation", "where", "route", "tab", "home", "about", "projects", "thinking", "contact"],
 };
 

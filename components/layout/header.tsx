@@ -1,6 +1,5 @@
-﻿"use client";
+"use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -15,35 +14,27 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/82 backdrop-blur-xl">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 sm:py-4">
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/88 backdrop-blur-xl">
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
           aria-label={`${siteConfig.author.name} home`}
-          className="navbar-brand min-w-0 gap-3 rounded-full transition-[transform,opacity] duration-300 hover:opacity-95 motion-safe:hover:-translate-y-px"
+          className="min-w-0 rounded-md text-xl font-semibold text-foreground transition-[transform,opacity] duration-300 hover:opacity-80 motion-safe:hover:-translate-y-px"
         >
-          <Image
-            src="/logo.png"
-            alt={`${siteConfig.author.name} logo`}
-            width={44}
-            height={44}
-            priority
-            className="navbar-logo"
-          />
-          <span className="max-w-[10rem] truncate whitespace-nowrap text-sm font-semibold tracking-tight text-foreground/90 sm:max-w-none sm:text-[0.95rem]">
-            {siteConfig.author.name}
+          <span className="block max-w-[12rem] truncate whitespace-nowrap sm:max-w-none">
+            Hambali Fadib
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-2 lg:flex">
+        <ul className="hidden items-center gap-8 lg:flex">
           {siteConfig.navigation.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
                 className={cn(
-                  "rounded-full px-3 py-2 text-sm font-medium transition-[transform,color,background-color,box-shadow] duration-300 hover:bg-primary/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 motion-safe:hover:-translate-y-px",
+                  "relative px-0.5 py-2 text-sm font-medium text-muted-foreground transition-[transform,color,opacity] duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 motion-safe:hover:-translate-y-px",
                   pathname === item.href
-                    ? "bg-primary/5 text-foreground shadow-[inset_0_0_0_1px_rgba(55,103,184,0.08)]"
+                    ? "text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-primary"
                     : "text-muted-foreground",
                 )}
               >
@@ -53,15 +44,11 @@ export function Header() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <Button
-            asChild
-            variant="outline"
-            className="rounded-full border-border/80 bg-background/80 px-5"
-          >
-            <Link href="/#assistant">Ask AI</Link>
-          </Button>
+        <div className="hidden items-center gap-3 lg:flex">
           <ThemeToggle />
+          <Button asChild className="h-10 rounded-full px-5">
+            <Link href="/contact">Get in Touch</Link>
+          </Button>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
@@ -79,7 +66,7 @@ export function Header() {
       </nav>
 
       {mobileMenuOpen ? (
-        <div className="border-t border-border/70 bg-background/95 lg:hidden">
+        <div className="border-t border-border/70 bg-background/96 lg:hidden">
           <div className="mx-auto max-w-7xl px-6 py-4">
             <ul className="space-y-2">
               {siteConfig.navigation.map((item) => (
@@ -88,8 +75,10 @@ export function Header() {
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(
-                      "block rounded-2xl px-4 py-3 text-sm font-medium transition-[transform,color,background-color] duration-300 hover:bg-secondary hover:text-foreground motion-safe:hover:-translate-y-px",
-                      pathname === item.href ? "bg-secondary text-foreground" : "text-muted-foreground",
+                      "block rounded-lg px-4 py-3 text-sm font-medium transition-[transform,color,background-color] duration-300 hover:bg-secondary hover:text-foreground motion-safe:hover:-translate-y-px",
+                      pathname === item.href
+                        ? "bg-secondary text-foreground"
+                        : "text-muted-foreground",
                     )}
                   >
                     {item.name}
@@ -97,13 +86,9 @@ export function Header() {
                 </li>
               ))}
             </ul>
-            <Button
-              asChild
-              variant="outline"
-              className="mt-4 w-full rounded-full border-border/80 bg-background/80"
-            >
-              <Link href="/#assistant" onClick={() => setMobileMenuOpen(false)}>
-                Ask AI About Me
+            <Button asChild className="mt-4 w-full rounded-full">
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
+                Get in Touch
               </Link>
             </Button>
           </div>

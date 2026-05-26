@@ -35,7 +35,7 @@ export const siteConfig = {
     github: "https://github.com/hambaliFadib",
     instagram: "https://www.instagram.com/hambalifadib",
     whatsapp: "https://wa.me/6281321506229",
-    phone: "+62xxx-xxxx-xxxx",
+    phone: "+62 813-2150-6229",
     location: "Bandung, Indonesia",
   },
   navigation: [
@@ -56,8 +56,8 @@ export const heroContent = {
     href: "/projects",
   },
   secondaryCta: {
-    label: "Ask AI",
-    href: "#assistant",
+    label: "View Projects",
+    href: "/projects",
   },
 } as const;
 

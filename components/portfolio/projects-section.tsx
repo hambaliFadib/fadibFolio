@@ -28,8 +28,8 @@ export function ProjectsSection({
   const visibleItems = limit ? sourceItems.slice(0, limit) : sourceItems;
 
   return (
-    <section id={id} className="px-6 py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl space-y-8">
+    <section id={id} className="px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl space-y-10">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow={eyebrow}
@@ -41,7 +41,7 @@ export function ProjectsSection({
             <Button
               asChild
               variant="outline"
-              className="h-11 rounded-full border-border/80 bg-background/90 px-5"
+              className="h-11 rounded-full border-border/80 bg-background/80 px-5"
             >
               <Link href="/projects">
                 Open project view
@@ -51,7 +51,7 @@ export function ProjectsSection({
           ) : null}
         </div>
 
-        <div className="space-y-5">
+        <div className="grid auto-rows-fr gap-5 lg:grid-cols-2">
           {visibleItems.map((project) => (
             <ProjectCaseStudyCard key={project.id} project={project} />
           ))}
@@ -60,4 +60,3 @@ export function ProjectsSection({
     </section>
   );
 }
-

@@ -2,6 +2,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { ClarityAIWidget } from "@/components/portfolio/clarity-ai-widget";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/data/profile";
 import "./globals.css";
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
         media: "(prefers-color-scheme: dark)",
       },
       {
-        url: "/logo.svg",
+        url: "/icon.svg",
         type: "image/svg+xml",
       },
     ],
@@ -60,6 +61,7 @@ export default function RootLayout({
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
+            <ClarityAIWidget />
           </div>
           <Analytics />
         </ThemeProvider>

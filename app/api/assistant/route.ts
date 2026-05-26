@@ -53,14 +53,14 @@ export async function POST(request: Request) {
       );
     }
 
-    console.error("Portfolio assistant route error:", error);
+    console.error("Clarity AI route error:", error);
 
     const message =
       error instanceof Error
         ? error.message === "Cerebras API key is not configured."
-          ? "The portfolio assistant is not configured yet. Add CEREBRAS_API_KEY to .env or .env.local, then restart the Next.js server."
+          ? "Clarity AI is not configured yet. Add CEREBRAS_API_KEY to .env or .env.local, then restart the Next.js server."
           : error.message
-        : "The portfolio assistant is temporarily unavailable.";
+        : "Clarity AI is temporarily unavailable.";
 
     return NextResponse.json({ error: message }, { status: 503 });
   }

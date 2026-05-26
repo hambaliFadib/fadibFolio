@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BrainCircuit, GitBranch } from "lucide-react";
 import { thinkingPageHeader } from "@/data/thinking";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { QualityThinkingSection } from "@/components/portfolio/quality-thinking-section";
-import { SectionHeading } from "@/components/portfolio/section-heading";
 
 export const metadata: Metadata = {
   title: "QA Thinking System",
@@ -13,46 +11,79 @@ export const metadata: Metadata = {
     "How quality decisions are made under ambiguity, risk, and real business impact.",
 };
 
+function ThoughtVisual() {
+  return (
+    <div className="grid-bg relative min-h-[25rem] overflow-hidden rounded-lg border border-border/70 bg-card/82 shadow-[0_28px_80px_-54px_rgba(20,33,61,0.48)]">
+      <div className="absolute left-1/2 top-1/2 w-[min(24rem,82%)] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border/70 bg-background/84 p-8 text-center backdrop-blur">
+        <BrainCircuit className="mx-auto h-8 w-8 text-primary" />
+        <h2 className="mt-4 text-2xl font-semibold text-foreground">
+          Structured Thinking
+        </h2>
+        <p className="mt-3 text-sm leading-7 text-muted-foreground">
+          Business intent, system behavior, risk visibility, and release proof
+          organized before judgment.
+        </p>
+        <div className="mt-6 grid grid-cols-3 gap-2">
+          <span className="h-12 rounded-md bg-primary/18" />
+          <span className="h-12 rounded-md bg-accent/70" />
+          <span className="h-12 rounded-md bg-foreground/10" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function QualityThinkingPage() {
   return (
-    <div className="pb-16 pt-8">
-      <section className="px-6 py-16">
-        <div className="mx-auto max-w-7xl space-y-8">
-          <SectionHeading
-            eyebrow={thinkingPageHeader.eyebrow}
-            title={thinkingPageHeader.title}
-            description={thinkingPageHeader.subtitle}
-          />
+    <div>
+      <section className="px-6 py-20 sm:py-24 lg:py-32">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
+          <div className="max-w-3xl space-y-8">
+            <div className="space-y-6">
+              <p className="font-mono text-xs font-medium uppercase text-primary/80">
+                Frameworks & essays
+              </p>
+              <h1 className="text-5xl font-semibold leading-[1.05] text-foreground sm:text-6xl">
+                Structured Thought for Complex Systems.
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-muted-foreground">
+                {thinkingPageHeader.subtitle}
+              </p>
+            </div>
 
-          <Card className="border-border/70 bg-card/95">
-            <CardContent className="grid auto-rows-fr gap-3 md:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               {thinkingPageHeader.statements.map((statement) => (
                 <div
                   key={statement}
-                  className="h-full rounded-2xl border border-border/70 bg-secondary/45 px-4 py-4 text-sm leading-6 text-muted-foreground"
+                  className="rounded-lg border border-border/70 bg-card/80 px-4 py-4 text-sm leading-6 text-muted-foreground"
                 >
                   {statement}
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
 
-          <div className="flex flex-wrap gap-4">
-            <Button asChild size="lg" className="h-12 rounded-full px-6">
-              <Link href="/projects">
-                View projects
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="h-12 rounded-full border-border/80 bg-background/90 px-6"
-            >
-              <Link href="/#assistant">Ask AI about my approach</Link>
-            </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="lg" className="h-12 rounded-full px-6">
+                <Link href="/projects">
+                  View projects
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="h-12 rounded-full border-border/80 bg-background/80 px-6"
+              >
+                <Link href="#quality-thinking">
+                  <GitBranch className="h-4 w-4" />
+                  Decision model
+                </Link>
+              </Button>
+            </div>
           </div>
+
+          <ThoughtVisual />
         </div>
       </section>
 
