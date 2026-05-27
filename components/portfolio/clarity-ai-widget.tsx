@@ -1,8 +1,13 @@
 "use client";
 
-import { type FormEvent, useEffect, useRef, useState } from "react";
 import {
-  Bot,
+  type FormEvent,
+  type KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import {
   CornerDownLeft,
   Eraser,
   Expand,
@@ -40,6 +45,57 @@ function LoadingDots() {
       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary/60 [animation-delay:120ms]" />
       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary/45 [animation-delay:240ms]" />
     </span>
+  );
+}
+
+function AiLogoIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      width="14"
+      height="23"
+      viewBox="0 0 14 23"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M0.179488 22.5641L0 21.1692L3.44103 11.6769C3.62052 11.8342 3.80641 11.9585 3.99872 12.05C4.19103 12.1414 4.38975 12.2171 4.59488 12.2769L1.2359 21.5744L0.179488 22.5641ZM13.1539 22.5641L12.0974 21.5744L8.73846 12.2769C8.94359 12.2171 9.14231 12.1414 9.33462 12.05C9.52693 11.9585 9.71283 11.8342 9.89231 11.6769L13.3333 21.1692L13.1539 22.5641ZM6.66667 10C5.74359 10 4.95727 9.67522 4.30769 9.02564C3.65812 8.37607 3.33333 7.58974 3.33333 6.66667C3.33333 5.8 3.6047 5.07479 4.14744 4.49102C4.69017 3.90726 5.30769 3.55897 6 3.44615V0H7.33334V3.44615C8.02565 3.55897 8.64317 3.90726 9.1859 4.49102C9.72864 5.07479 10 5.8 10 6.66667C10 7.58974 9.67522 8.37607 9.02565 9.02564C8.37607 9.67522 7.58975 10 6.66667 10ZM6.66667 8.66666C7.21539 8.66666 7.6859 8.47051 8.07821 8.0782C8.47051 7.6859 8.66667 7.21538 8.66667 6.66667C8.66667 6.11795 8.47051 5.64744 8.07821 5.25513C7.6859 4.86282 7.21539 4.66667 6.66667 4.66667C6.11795 4.66667 5.64744 4.86282 5.25514 5.25513C4.86283 5.64744 4.66667 6.11795 4.66667 6.66667C4.66667 7.21538 4.86283 7.6859 5.25514 8.0782C5.64744 8.47051 6.11795 8.66666 6.66667 8.66666Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function AssistantStatusBadge({
+  isLoading,
+  hasError,
+}: {
+  isLoading: boolean;
+  hasError: boolean;
+}) {
+  const label = hasError ? "AI Offline" : isLoading ? "AI Thinking" : "AI Active";
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className={cn(
+        "flex h-10 items-center gap-2 rounded-full border bg-background/80 px-3 text-sm font-medium shadow-sm",
+        hasError
+          ? "border-destructive/25 text-destructive"
+          : "border-primary/20 text-foreground",
+      )}
+    >
+      <span
+        className={cn(
+          "h-2 w-2 rounded-full",
+          hasError ? "bg-destructive" : "bg-primary",
+          isLoading && !hasError ? "animate-pulse" : null,
+        )}
+      />
+      {label}
+    </div>
   );
 }
 
@@ -178,6 +234,15 @@ export function ClarityAIWidget() {
     submitPrompt(draft);
   }
 
+  function handleWorkspaceKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) {
+      return;
+    }
+
+    event.preventDefault();
+    submitPrompt(draft);
+  }
+
   const hasConversation = messages.length > 0;
 
   return (
@@ -199,8 +264,8 @@ export function ClarityAIWidget() {
             <div className="border-b border-border/70 px-5 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                    <Bot className="h-5 w-5" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-background/90 text-foreground">
+                    <AiLogoIcon className="h-[23px] w-[14px]" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-base font-semibold text-foreground">
@@ -306,8 +371,8 @@ export function ClarityAIWidget() {
         <div className="fixed inset-0 z-50 flex bg-background text-foreground">
           <aside className="hidden w-72 shrink-0 border-r border-border/70 bg-card/92 p-5 md:flex md:flex-col">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Bot className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-background/90 text-foreground">
+                <AiLogoIcon className="h-[23px] w-[14px]" />
               </div>
               <div>
                 <p className="font-semibold">Clarity AI</p>
@@ -356,16 +421,10 @@ export function ClarityAIWidget() {
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full bg-background/80"
-                  onClick={clearSession}
-                >
-                  <Eraser className="h-4 w-4" />
-                  New Session
-                </Button>
+                <AssistantStatusBadge
+                  isLoading={isLoading}
+                  hasError={Boolean(error)}
+                />
                 <Button
                   type="button"
                   variant="ghost"
@@ -431,6 +490,7 @@ export function ClarityAIWidget() {
                   <Textarea
                     value={draft}
                     onChange={(event) => setDraft(event.target.value)}
+                    onKeyDown={handleWorkspaceKeyDown}
                     placeholder="Ask Clarity AI about this portfolio..."
                     className="max-h-32 min-h-12 flex-1 resize-none border-0 bg-transparent px-3 py-3 text-sm shadow-none focus-visible:ring-0"
                     disabled={isLoading}

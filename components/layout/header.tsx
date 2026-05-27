@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -19,8 +20,16 @@ export function Header() {
         <Link
           href="/"
           aria-label={`${siteConfig.author.name} home`}
-          className="min-w-0 rounded-md text-xl font-semibold text-foreground transition-[transform,opacity] duration-300 hover:opacity-80 motion-safe:hover:-translate-y-px"
+          className="flex min-w-0 items-center gap-3 rounded-md text-xl font-semibold text-foreground transition-[transform,opacity] duration-300 hover:opacity-80 motion-safe:hover:-translate-y-px"
         >
+          <Image
+            src="/logo.png"
+            alt=""
+            width={32}
+            height={32}
+            priority
+            className="h-8 w-8 shrink-0 rounded-md"
+          />
           <span className="block max-w-[12rem] truncate whitespace-nowrap sm:max-w-none">
             Hambali Fadib
           </span>

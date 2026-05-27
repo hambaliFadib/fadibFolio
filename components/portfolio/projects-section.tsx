@@ -13,6 +13,7 @@ interface ProjectsSectionProps {
   eyebrow?: string;
   title?: string;
   description?: string;
+  sectionClassName?: string;
 }
 
 export function ProjectsSection({
@@ -23,12 +24,13 @@ export function ProjectsSection({
   eyebrow = "Projects",
   title = "NDA-safe case studies from enterprise systems",
   description = "Structured to show domain, problem, ownership, handled risk, decision impact, and business impact without exposing sensitive detail.",
+  sectionClassName = "px-6 py-20 sm:py-24",
 }: ProjectsSectionProps) {
   const sourceItems = items ?? projects;
   const visibleItems = limit ? sourceItems.slice(0, limit) : sourceItems;
 
   return (
-    <section id={id} className="px-6 py-20 sm:py-24">
+    <section id={id} className={sectionClassName}>
       <div className="mx-auto max-w-7xl space-y-10">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading

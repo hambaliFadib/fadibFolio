@@ -12,7 +12,7 @@
 
 export const aboutCvAction = {
   label: "View CV",
-  href: "/cv.pdf",
+  href: "/Hambali_Fadib_CV_QA_2026.pdf",
   downloadName: "Hambali-Fadib-CV.pdf",
 };
 

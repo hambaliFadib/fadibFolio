@@ -24,7 +24,7 @@ export interface HomeNavigationCard {
 
 export const siteConfig = {
   name: "QA Portfolio System",
-  title: "Risk-Based Quality | Protecting Business-Critical Systems",
+  title: "Hambali Fadib - Portofolio",
   description:
     "Executive-summary portfolio for a Software QA Engineer focused on enterprise systems, risk-based quality, and structured decision-making.",
   author: {
@@ -132,7 +132,7 @@ export const contactChannels: ContactChannel[] = [
   },
   {
     label: "WhatsApp",
-    value: siteConfig.author.phone,
+    value: "Direct Message",
     href: siteConfig.author.whatsapp,
     description: "Best for short coordination once the discussion is already moving.",
   },

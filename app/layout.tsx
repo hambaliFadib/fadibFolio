@@ -10,26 +10,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: {
     default: siteConfig.title,
-    template: `%s | ${siteConfig.author.name}`,
+    template: `%s | ${siteConfig.title}`,
   },
   description: siteConfig.description,
   authors: [{ name: siteConfig.author.name }],
   generator: "Codex",
   icons: {
-    icon: [
-      {
-        url: "/logo.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/logo.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
+    icon: "/logo.png",
+    shortcut: "/logo.png",
     apple: "/logo.png",
   },
 };

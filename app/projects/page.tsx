@@ -99,6 +99,7 @@ export default function ProjectsPage() {
       <ProjectsSection
         id="enterprise-case-studies"
         items={enterpriseCaseStudies}
+        sectionClassName="px-6 pb-20 pt-0 sm:pb-24"
         eyebrow="Enterprise / NDA-safe case studies"
         title="Business-critical systems evaluated through release risk"
         description="Each case stays public-safe while preserving the structure that matters: context, ambiguity, ownership, handled risk, and decision impact."

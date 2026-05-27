@@ -6,8 +6,8 @@ import { heroContent, siteConfig } from "@/data/profile";
 
 export function HomeHero() {
   return (
-    <section className="px-6 pb-20 pt-16 sm:pt-20 lg:pb-28 lg:pt-32">
-      <div className="mx-auto grid max-w-7xl gap-12 lg:min-h-[740px] lg:grid-cols-2 lg:items-center">
+    <section className="px-6 py-20 sm:py-24 lg:py-28">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
         <div className="max-w-3xl space-y-8">
           <div className="space-y-6">
             <p className="font-mono text-xs font-medium uppercase text-primary/80">
@@ -47,7 +47,7 @@ export function HomeHero() {
               fill
               priority
               sizes="(min-width: 1280px) 592px, (min-width: 1024px) 46vw, 92vw"
-              className="object-cover"
+              className="object-cover object-[center_58%]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/26 via-transparent to-white/8 dark:from-black/36" />
           </div>
