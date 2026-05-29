@@ -1,7 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { z } from "zod";
 import type { AssistantMessage } from "@/data/assistant";
-import { requestCerebrasChatCompletion } from "@/lib/cerebras";
+import { requestOpenRouterChatCompletion } from "@/lib/openrouter";
 import {
   buildPortfolioAssistantSystemPrompt,
   sanitizeAssistantMessages,
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const content = await requestCerebrasChatCompletion({
+    const content = await requestOpenRouterChatCompletion({
       systemPrompt: buildPortfolioAssistantSystemPrompt(messages),
       messages,
     });
@@ -57,8 +57,8 @@ export async function POST(request: Request) {
 
     const message =
       error instanceof Error
-        ? error.message === "Cerebras API key is not configured."
-          ? "Clarity AI is not configured yet. Add CEREBRAS_API_KEY to .env or .env.local, then restart the Next.js server."
+        ? error.message === "OpenRouter API key is not configured."
+          ? "Clarity AI is not configured yet. Add OPENROUTER_API_KEY to .env or .env.local, then restart the Next.js server."
           : error.message
         : "Clarity AI is temporarily unavailable.";
 

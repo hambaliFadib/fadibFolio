@@ -1,11 +1,11 @@
-﻿import "server-only";
+import "server-only";
 
 import type { AssistantMessage } from "@/data/assistant";
 
-const CEREBRAS_API_URL = "https://api.cerebras.ai/v1/chat/completions";
-const DEFAULT_CEREBRAS_MODEL = "llama3.1-8b";
+const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
+const DEFAULT_OPENROUTER_MODEL = "openrouter/owl-alpha";
 
-interface CerebrasChatResponse {
+interface OpenRouterChatResponse {
   choices?: Array<{
     message?: {
       content?: string;
@@ -17,24 +17,20 @@ interface CerebrasChatResponse {
   message?: string;
 }
 
-function supportsReasoningEffort(model: string) {
-  return model.startsWith("gpt-oss-") || model.startsWith("zai-glm-4.5");
-}
-
-export async function requestCerebrasChatCompletion({
+export async function requestOpenRouterChatCompletion({
   systemPrompt,
   messages,
 }: {
   systemPrompt: string;
   messages: AssistantMessage[];
 }) {
-  const apiKey = process.env.CEREBRAS_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY;
 
   if (!apiKey) {
-    throw new Error("Cerebras API key is not configured.");
+    throw new Error("OpenRouter API key is not configured.");
   }
 
-  const model = process.env.CEREBRAS_MODEL ?? DEFAULT_CEREBRAS_MODEL;
+  const model = process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
   const requestBody: Record<string, unknown> = {
     model,
     max_completion_tokens: 420,
@@ -47,28 +43,26 @@ export async function requestCerebrasChatCompletion({
     ],
   };
 
-  if (supportsReasoningEffort(model)) {
-    requestBody.reasoning_effort = "low";
-  }
-
-  const response = await fetch(CEREBRAS_API_URL, {
+  const response = await fetch(OPENROUTER_API_URL, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
+      "HTTP-Referer": process.env.OPENROUTER_SITE_URL ?? "",
+      "X-Title": process.env.OPENROUTER_APP_TITLE ?? "Fadibfolio",
     },
     body: JSON.stringify(requestBody),
     cache: "no-store",
     signal: AbortSignal.timeout(30000),
   });
 
-  const payload = (await response.json().catch(() => null)) as CerebrasChatResponse | null;
+  const payload = (await response.json().catch(() => null)) as OpenRouterChatResponse | null;
 
   if (!response.ok) {
     const message =
       payload?.error?.message ??
       payload?.message ??
-      `Cerebras request failed with status ${response.status}.`;
+      `OpenRouter request failed with status ${response.status}.`;
 
     throw new Error(message);
   }
@@ -76,12 +70,8 @@ export async function requestCerebrasChatCompletion({
   const content = payload?.choices?.[0]?.message?.content?.trim();
 
   if (!content) {
-    throw new Error("Cerebras returned an empty response.");
+    throw new Error("OpenRouter returned an empty response.");
   }
 
   return content;
 }
-
-
-
-
