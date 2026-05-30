@@ -182,7 +182,7 @@ export function ContactPageContent() {
               Get in touch
             </p>
             <div className="space-y-6">
-              <h1 className="max-w-3xl text-[2rem] font-semibold leading-[1.08] text-foreground sm:text-[2.35rem] lg:text-[2.65rem]">
+              <h1 className="max-w-3xl text-5xl font-semibold leading-[1.06] text-foreground sm:text-6xl">
                 Let&apos;s Build Clearer Systems.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-muted-foreground">

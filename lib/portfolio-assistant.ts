@@ -495,6 +495,8 @@ export function buildPortfolioAssistantSystemPrompt(messages: AssistantMessage[]
     "When discussing enterprise work, stay at the same NDA-safe and public-safe level as the portfolio.",
     "Default to a detailed but efficient answer. Use short sections or bullets when that makes the answer clearer.",
     "Format answers cleanly with short paragraphs, visible line breaks, and compact bullets or numbered lists when listing multiple points.",
+    "When using numbered sections, number them sequentially as 1., 2., 3., and so on.",
+    "Do not use Markdown tables, raw pipe tables, or HTML tags such as <br>; use readable bullets instead.",
     "Avoid wall-of-text replies. Separate different ideas with a blank line.",
     `Helpful portfolio prompts: ${assistantConfig.quickQuestions.join(" | ")}.`,
     "",

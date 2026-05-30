@@ -4,7 +4,7 @@ import { ArrowRight, Network, ShieldCheck } from "lucide-react";
 import { builtSystemsProjects, enterpriseCaseStudies } from "@/data/projects";
 import { Button } from "@/components/ui/button";
 import { FrameworkSection } from "@/components/portfolio/framework-section";
-import { ProjectsSection } from "@/components/portfolio/projects-section";
+import { ProjectJourneySection } from "@/components/portfolio/project-journey-section";
 import { RealDecisionCasesSection } from "@/components/portfolio/real-decision-cases-section";
 
 export const metadata: Metadata = {
@@ -96,21 +96,9 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      <ProjectsSection
-        id="enterprise-case-studies"
-        items={enterpriseCaseStudies}
-        sectionClassName="px-6 pb-20 pt-0 sm:pb-24"
-        eyebrow="Enterprise / NDA-safe case studies"
-        title="Business-critical systems evaluated through release risk"
-        description="Each case stays public-safe while preserving the structure that matters: context, ambiguity, ownership, handled risk, and decision impact."
-      />
-
-      <ProjectsSection
-        id="built-systems"
-        items={builtSystemsProjects}
-        eyebrow="Built systems"
-        title="Decision systems built to strengthen QA control"
-        description="These systems turn scattered quality signals into clearer intake, workflow control, and release-supporting evidence."
+      <ProjectJourneySection
+        enterpriseItems={enterpriseCaseStudies}
+        builtItems={builtSystemsProjects}
       />
 
       <FrameworkSection />

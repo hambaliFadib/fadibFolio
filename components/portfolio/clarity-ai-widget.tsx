@@ -11,6 +11,7 @@ import {
   CornerDownLeft,
   Eraser,
   Expand,
+  Lightbulb,
   MessageSquareText,
   Send,
   Sparkles,
@@ -30,6 +31,37 @@ interface AssistantRouteResponse {
   error?: string;
 }
 
+type AiParticleMode = "snow" | "code";
+
+interface AiParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  alpha: number;
+  sway: number;
+  symbol: string;
+  rotation: number;
+  rotationSpeed: number;
+}
+
+const aiParticleMode: AiParticleMode = "code";
+const codeParticleSymbols = [
+  "{}",
+  "[]",
+  "()",
+  "</>",
+  "=>",
+  "&&",
+  "||",
+  "if",
+  "fn",
+  "API",
+  "01",
+  ";",
+] as const;
+
 const knowledgeDomains = [
   "Portfolio Overview",
   "Projects",
@@ -38,13 +70,27 @@ const knowledgeDomains = [
   "Contact",
 ] as const;
 
-function LoadingDots() {
+function ThinkingLoader() {
   return (
-    <span className="flex items-center gap-1" aria-hidden="true">
-      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary/75" />
-      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary/60 [animation-delay:120ms]" />
-      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary/45 [animation-delay:240ms]" />
-    </span>
+    <div className="flex items-center gap-3">
+      <span className="thinking-bulb relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/8 text-primary">
+        <span className="thinking-orbit absolute inset-[-5px] rounded-[0.8rem] border border-primary/18">
+          <span className="absolute -right-1 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-primary/70" />
+        </span>
+        <Lightbulb className="relative h-[18px] w-[18px]" />
+      </span>
+
+      <span>
+        <span className="block text-sm font-medium text-foreground">
+          {assistantConfig.loadingLabel}
+        </span>
+        <span className="mt-1 flex items-center gap-1.5" aria-hidden="true">
+          <span className="thinking-bar h-1.5 w-5 rounded-full bg-primary/55" />
+          <span className="thinking-bar h-1.5 w-3 rounded-full bg-primary/38 [animation-delay:160ms]" />
+          <span className="thinking-bar h-1.5 w-4 rounded-full bg-primary/28 [animation-delay:320ms]" />
+        </span>
+      </span>
+    </div>
   );
 }
 
@@ -64,6 +110,176 @@ function AiLogoIcon({ className }: { className?: string }) {
         fill="currentColor"
       />
     </svg>
+  );
+}
+
+function AiParticleField() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const host = canvas?.parentElement;
+    const context = canvas?.getContext("2d");
+
+    if (!canvas || !host || !context) {
+      return;
+    }
+
+    const currentCanvas = canvas;
+    const currentHost = host;
+    const currentContext = context;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const particles: AiParticle[] = [];
+    let width = 0;
+    let height = 0;
+    let animationFrame = 0;
+
+    function randomCodeSymbol() {
+      return codeParticleSymbols[Math.floor(Math.random() * codeParticleSymbols.length)];
+    }
+
+    function resetParticle(particle: AiParticle, fromTop = false) {
+      particle.x = Math.random() * width;
+      particle.y = fromTop ? -16 - Math.random() * 80 : Math.random() * height;
+      particle.vx = (Math.random() - 0.5) * (aiParticleMode === "code" ? 0.24 : 0.16);
+      particle.vy =
+        aiParticleMode === "code"
+          ? 0.2 + Math.random() * 0.32
+          : 0.18 + Math.random() * 0.36;
+      particle.size =
+        aiParticleMode === "code"
+          ? 10 + Math.random() * 6
+          : 1.6 + Math.random() * 2.4;
+      particle.alpha =
+        aiParticleMode === "code"
+          ? 0.24 + Math.random() * 0.28
+          : 0.5 + Math.random() * 0.36;
+      particle.sway = Math.random() * Math.PI * 2;
+      particle.symbol = randomCodeSymbol();
+      particle.rotation = (Math.random() - 0.5) * 0.28;
+      particle.rotationSpeed = (Math.random() - 0.5) * 0.003;
+    }
+
+    function syncSize() {
+      const rect = currentCanvas.getBoundingClientRect();
+      const nextWidth = Math.max(1, Math.floor(rect.width));
+      const nextHeight = Math.max(1, Math.floor(rect.height));
+      const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+      width = nextWidth;
+      height = nextHeight;
+      currentCanvas.width = Math.floor(width * devicePixelRatio);
+      currentCanvas.height = Math.floor(height * devicePixelRatio);
+      currentContext.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+
+      const targetCount = Math.min(
+        80,
+        Math.max(26, Math.floor((width * height) / 21000)),
+      );
+
+      while (particles.length < targetCount) {
+        const particle: AiParticle = {
+          x: 0,
+          y: 0,
+          vx: 0,
+          vy: 0,
+          size: 1,
+          alpha: 0.4,
+          sway: 0,
+          symbol: randomCodeSymbol(),
+          rotation: 0,
+          rotationSpeed: 0,
+        };
+
+        resetParticle(particle);
+        particles.push(particle);
+      }
+
+      particles.length = targetCount;
+    }
+
+    function drawSnowParticle(particle: AiParticle) {
+      currentContext.save();
+      currentContext.shadowBlur = 9;
+      currentContext.shadowColor = "rgba(28, 55, 78, 0.2)";
+      currentContext.fillStyle = `rgba(245, 245, 245, ${particle.alpha})`;
+      currentContext.strokeStyle = `rgba(92, 111, 126, ${particle.alpha * 0.18})`;
+      currentContext.lineWidth = 1;
+      currentContext.beginPath();
+      currentContext.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+      currentContext.fill();
+      currentContext.stroke();
+      currentContext.restore();
+    }
+
+    function drawCodeParticle(particle: AiParticle) {
+      currentContext.save();
+      currentContext.translate(particle.x, particle.y);
+      currentContext.rotate(particle.rotation);
+      currentContext.font = `${particle.size}px "Cascadia Code", "JetBrains Mono", Consolas, monospace`;
+      currentContext.textAlign = "center";
+      currentContext.textBaseline = "middle";
+      currentContext.shadowBlur = 8;
+      currentContext.shadowColor = "rgba(255, 255, 255, 0.55)";
+      currentContext.fillStyle = `rgba(43, 70, 86, ${particle.alpha})`;
+      currentContext.fillText(particle.symbol, 0, 0);
+      currentContext.restore();
+    }
+
+    function drawParticle(particle: AiParticle) {
+      if (aiParticleMode === "code") {
+        drawCodeParticle(particle);
+        return;
+      }
+
+      drawSnowParticle(particle);
+    }
+
+    function render() {
+      currentContext.clearRect(0, 0, width, height);
+
+      for (const particle of particles) {
+        particle.sway += 0.012;
+        particle.rotation += particle.rotationSpeed;
+        particle.x += particle.vx + Math.sin(particle.sway) * 0.08;
+        particle.y += particle.vy;
+
+        if (particle.y > height + 20 || particle.x < -24 || particle.x > width + 24) {
+          resetParticle(particle, true);
+        }
+
+        drawParticle(particle);
+      }
+
+      animationFrame = window.requestAnimationFrame(render);
+    }
+
+    syncSize();
+
+    if (reduceMotion) {
+      for (const particle of particles) {
+        drawParticle(particle);
+      }
+
+      return;
+    }
+
+    const resizeObserver = new ResizeObserver(syncSize);
+    resizeObserver.observe(currentHost);
+    animationFrame = window.requestAnimationFrame(render);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="ai-particle-field pointer-events-none absolute inset-0 h-full w-full"
+    />
   );
 }
 
@@ -117,7 +333,7 @@ function MessageList({
         >
           <div
             className={cn(
-              "max-w-[88%] break-words rounded-lg px-3.5 py-3 text-sm leading-6",
+              "min-w-0 max-w-[92%] overflow-hidden break-words rounded-lg px-3.5 py-3 text-sm leading-6",
               message.role === "user"
                 ? "bg-primary text-primary-foreground"
                 : "border border-border/70 bg-card text-foreground",
@@ -134,9 +350,8 @@ function MessageList({
 
       {isLoading ? (
         <div className="flex justify-start">
-          <div className="flex max-w-[88%] items-center gap-3 rounded-lg border border-border/70 bg-card px-3.5 py-3 text-sm text-muted-foreground">
-            <span>{assistantConfig.loadingLabel}</span>
-            <LoadingDots />
+          <div className="max-w-[92%] rounded-lg border border-border/70 bg-card/96 px-3.5 py-3 text-sm text-muted-foreground shadow-sm">
+            <ThinkingLoader />
           </div>
         </div>
       ) : null}
@@ -260,7 +475,8 @@ export function ClarityAIWidget() {
 
       {mode === "compact" ? (
         <div className="fixed inset-0 z-50 bg-background/45 backdrop-blur-sm">
-          <div className="absolute bottom-6 right-6 flex h-[min(42rem,calc(100vh-3rem))] w-[min(26rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-lg border border-border/80 bg-card/98 shadow-[0_28px_70px_-36px_rgba(20,33,61,0.55)]">
+          <div className="ai-system-grid absolute bottom-6 right-6 flex h-[min(42rem,calc(100vh-3rem))] w-[min(26rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-lg border border-border/80 bg-card/98 shadow-[0_28px_70px_-36px_rgba(20,33,61,0.55)]">
+            <AiParticleField />
             <div className="border-b border-border/70 px-5 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 gap-3">
@@ -407,7 +623,8 @@ export function ClarityAIWidget() {
             </Button>
           </aside>
 
-          <main className="grid-bg relative flex min-w-0 flex-1 flex-col overflow-hidden">
+          <main className="grid-bg ai-system-grid relative flex min-w-0 flex-1 flex-col overflow-hidden">
+            <AiParticleField />
             <div className="flex h-16 shrink-0 items-center justify-between border-b border-border/70 bg-background/88 px-4 backdrop-blur md:px-6">
               <div className="min-w-0 md:hidden">
                 <p className="font-semibold">Clarity AI</p>
